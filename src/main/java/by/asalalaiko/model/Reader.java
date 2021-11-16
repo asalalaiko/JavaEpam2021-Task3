@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 
 
 import java.util.List;
+import java.util.concurrent.Exchanger;
 
 public class Reader extends Thread {
 
@@ -14,17 +15,19 @@ public class Reader extends Thread {
     private Integer readerName;
 
 
-    List<Book> bookList;
-    Book book;
-    Library library;
-    ReadingRoom readingRoom;
+    private List<Book> bookList;
+    private Book book;
+    private Library library;
+    private ReadingRoom readingRoom;
+    private Exchanger<Book> exchanger;
 
 
 
-    public Reader(Integer readerName, Library library, ReadingRoom readingRoom) {
+    public Reader(Integer readerName, Library library, ReadingRoom readingRoom, Exchanger<Book> exchanger) {
         this.readerName = readerName;
         this.library = library;
         this.readingRoom = readingRoom;
+        this.exchanger = exchanger;
     }
 
     @Override
@@ -37,6 +40,15 @@ public class Reader extends Thread {
 
             Book bookRR = readingRoom.getBook();
             LOG.info("Rider {} take Book {} in Reading room", readerName, bookRR.getId());
+            try{
+                bookRR = exchanger.exchange(bookRR);
+
+                LOG.info("===============> Rider {} exchange to Book {} in Reading room", readerName, bookRR.getId());
+                
+            }
+            catch(InterruptedException ex){
+                System.out.println(ex.getMessage());
+            }
             returnBookToRR(bookRR);
 
 
@@ -56,7 +68,8 @@ public class Reader extends Thread {
     private void returnBookToRR(Book book) throws InterruptedException {
         sleep((long) (Math.random() * 100));
         LOG.info("Rider {} return Book {} to Reading room", readerName, book.getId());
-        library.setBook(book);
+        readingRoom.setBook(book);
+
 
     }
 }

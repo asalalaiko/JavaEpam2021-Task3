@@ -18,6 +18,7 @@ public class Library {
         this.limitBooks = limitBooks;
         this.bookList = bookList;
         semaphore = new Semaphore(bookList.size());
+        bookList.forEach(book -> book.setSemaphore(semaphore));
     }
 
     public Book getBook() throws InterruptedException {
@@ -27,16 +28,15 @@ public class Library {
         freeBook.busy();
 
         lock.unlock();
-        sleep((long) (Math.random() * 900));
+        sleep((long) (Math.random() * 150));
         return freeBook;
     }
 
     public void setBook(Book book) throws InterruptedException {
         lock.lock();
         book.release();
-        semaphore.release();
         lock.unlock();
-
+        //semaphore.release();
 
     }
 

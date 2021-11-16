@@ -18,25 +18,24 @@ public class ReadingRoom {
     public ReadingRoom(Integer limitBooks, List<Book> bookList) {
         this.limitBooks = limitBooks;
         this.bookList = bookList;
-        semaphore = new Semaphore(bookList.size());
+
     }
 
 
     public Book getBook() throws InterruptedException {
-        semaphore.acquire();
+
         lock.lock();
         Book freeBook = bookList.stream().filter(book -> book.isFree()).findFirst().get();
         freeBook.busy();
 
         lock.unlock();
-        sleep((long) (Math.random() * 900));
+        sleep((long) (Math.random() * 20));
         return freeBook;
     }
 
     public void setBook(Book book) throws InterruptedException {
         lock.lock();
         book.release();
-        semaphore.release();
         lock.unlock();
 
 

@@ -10,6 +10,8 @@ import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Exchanger;
+import java.util.concurrent.Semaphore;
 
 /**
  * @author Salalaiko Alex
@@ -26,6 +28,8 @@ import java.util.List;
 
 public class Application {
     private static final Logger LOG = LoggerFactory.getLogger(Application.class);
+    private static Semaphore semaphore;
+
     public static void main(String[] args){
 
 
@@ -36,23 +40,26 @@ public class Application {
         List<Book> booksRR = booksFromReadingRoom();
         ReadingRoom readingRoom = new ReadingRoom(1, booksRR);
 
-        List<Reader> readers = getReaders(library, readingRoom);
+        Exchanger<Book> exchanger = new Exchanger<>();
 
+        List<Reader> readers = getReaders(library, readingRoom, exchanger);
+
+        semaphore = new Semaphore(readers.size());
         readers.forEach(Thread::start);
         LOG.info("Main thread finished");
     }
 
-    private static List<Reader> getReaders(Library library, ReadingRoom readingRoom) {
+    private static List<Reader> getReaders(Library library, ReadingRoom readingRoom, Exchanger exchanger) {
         List<Reader> readers = new ArrayList<>();
-        readers.add(new Reader(1, library, readingRoom));
-        readers.add(new Reader(2, library, readingRoom));
-        readers.add(new Reader(3, library, readingRoom));
-        readers.add(new Reader(4, library, readingRoom));
-        readers.add(new Reader(5, library, readingRoom));
-        readers.add(new Reader(6, library, readingRoom));
-        readers.add(new Reader(7, library, readingRoom));
-        readers.add(new Reader(8, library, readingRoom));
-        readers.add(new Reader(9, library, readingRoom));
+        readers.add(new Reader(1, library, readingRoom, exchanger));
+        readers.add(new Reader(2, library, readingRoom, exchanger));
+        readers.add(new Reader(3, library, readingRoom, exchanger));
+        readers.add(new Reader(4, library, readingRoom, exchanger));
+        readers.add(new Reader(5, library, readingRoom, exchanger));
+        readers.add(new Reader(6, library, readingRoom, exchanger));
+        readers.add(new Reader(7, library, readingRoom, exchanger));
+        readers.add(new Reader(8, library, readingRoom, exchanger));
+        readers.add(new Reader(9, library, readingRoom, exchanger));
 
         return readers;
     }
@@ -63,8 +70,8 @@ public class Application {
         books.add(new Book(1));
         books.add(new Book(2));
         books.add(new Book(3));
-//        books.add(new Book(4));
-//        books.add(new Book(5));
+        books.add(new Book(4));
+        books.add(new Book(5));
 //        books.add(new Book(6));
 //        books.add(new Book(7));
 //        books.add(new Book(8));
