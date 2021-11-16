@@ -21,29 +21,42 @@ public class Reader extends Thread {
 
 
 
-    public Reader(Integer readerName, Library library) {
+    public Reader(Integer readerName, Library library, ReadingRoom readingRoom) {
         this.readerName = readerName;
         this.library = library;
+        this.readingRoom = readingRoom;
     }
 
     @Override
     public void run() {
 
         try {
-            Book book = library.getBook();
-            LOG.info("Rider {} take Book {}", readerName, book.getId());
+            Book bookL = library.getBook();
+            LOG.info("Rider {} take Book {} in Library", readerName, bookL.getId());
+            returnBookToLib(bookL);
 
-            returnBook(book);
+            Book bookRR = readingRoom.getBook();
+            LOG.info("Rider {} take Book {} in Reading room", readerName, bookRR.getId());
+            returnBookToRR(bookRR);
+
+
 
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
-    private void returnBook(Book book) throws InterruptedException {
+    private void returnBookToLib(Book book) throws InterruptedException {
         sleep((long) (Math.random() * 300));
-        LOG.info("Rider {} return Book {}", readerName, book.getId());
-       library.setBook(book);
+        LOG.info("Rider {} return Book {} to Library", readerName, book.getId());
+        library.setBook(book);
+
+    }
+
+    private void returnBookToRR(Book book) throws InterruptedException {
+        sleep((long) (Math.random() * 100));
+        LOG.info("Rider {} return Book {} to Reading room", readerName, book.getId());
+        library.setBook(book);
 
     }
 }

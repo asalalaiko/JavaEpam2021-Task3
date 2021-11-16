@@ -36,24 +36,23 @@ public class Application {
         List<Book> booksRR = booksFromReadingRoom();
         ReadingRoom readingRoom = new ReadingRoom(1, booksRR);
 
-        List<Reader> readers = getReaders(library);
+        List<Reader> readers = getReaders(library, readingRoom);
 
-        LOG.info("Main thread started");
         readers.forEach(Thread::start);
         LOG.info("Main thread finished");
     }
 
-    private static List<Reader> getReaders(Library library) {
+    private static List<Reader> getReaders(Library library, ReadingRoom readingRoom) {
         List<Reader> readers = new ArrayList<>();
-        readers.add(new Reader(1, library));
-        readers.add(new Reader(2, library));
-        readers.add(new Reader(3, library));
-        readers.add(new Reader(4, library));
-        readers.add(new Reader(5, library));
-        readers.add(new Reader(6, library));
-        readers.add(new Reader(7, library));
-        readers.add(new Reader(8, library));
-        readers.add(new Reader(9, library));
+        readers.add(new Reader(1, library, readingRoom));
+        readers.add(new Reader(2, library, readingRoom));
+        readers.add(new Reader(3, library, readingRoom));
+        readers.add(new Reader(4, library, readingRoom));
+        readers.add(new Reader(5, library, readingRoom));
+        readers.add(new Reader(6, library, readingRoom));
+        readers.add(new Reader(7, library, readingRoom));
+        readers.add(new Reader(8, library, readingRoom));
+        readers.add(new Reader(9, library, readingRoom));
 
         return readers;
     }
@@ -64,7 +63,7 @@ public class Application {
         books.add(new Book(1));
         books.add(new Book(2));
         books.add(new Book(3));
-        books.add(new Book(4));
+//        books.add(new Book(4));
 //        books.add(new Book(5));
 //        books.add(new Book(6));
 //        books.add(new Book(7));
@@ -74,9 +73,10 @@ public class Application {
 
     private static List<Book> booksFromReadingRoom() {
         List<Book> books = new ArrayList<>();
-        books.add(new Book(5));
-        books.add(new Book(6));
-        books.add(new Book(7));
+        books.add(new Book(10));
+        books.add(new Book(11));
+        books.add(new Book(12));
+        books.add(new Book(13));
         return books;
     }
 }
