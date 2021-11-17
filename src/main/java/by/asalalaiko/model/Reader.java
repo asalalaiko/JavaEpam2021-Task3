@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Exchanger;
 
@@ -34,9 +35,9 @@ public class Reader extends Thread {
     public void run() {
 
         try {
-            Book bookL = library.getBook();
-            LOG.info("Rider {} take Book {} in Library", readerName, bookL.getId());
-            returnBookToLib(bookL);
+
+            List<Book> booksL = getBooksToLibrary(library);
+            returnBooksToLib(booksL);
 
             Book bookRR = readingRoom.getBook();
             LOG.info("Rider {} take Book {} in Reading room", readerName, bookRR.getId());
@@ -52,10 +53,41 @@ public class Reader extends Thread {
         }
     }
 
+    private List<Book> getBooksToLibrary(Library library) throws InterruptedException {
+        int i = getRandom(1,5);
+        List<Book> books = new ArrayList<>();
+
+        do {
+            LOG.info("Rider {} asks {}-books to Library", readerName, i);
+            if (i>library.getLimitBooks()) {
+                LOG.info("Library refuses Rider {} to give books", readerName);
+                i--;
+            } else {
+                books.add(library.getBook());
+                LOG.info("Rider {} take Book {} in Library", readerName, books.get(books.size()-1).getId());
+            }
+        }
+       while (books.size()<=0);
+
+
+        return books;
+    }
+
     private void returnBookToLib(Book book) throws InterruptedException {
         sleep((long) (Math.random() * 300));
         LOG.info("Rider {} return Book {} to Library", readerName, book.getId());
         library.setBook(book);
+
+    }
+
+    private void returnBooksToLib(List<Book> books) {
+        books.stream().forEach(book1 -> {
+            try {
+                returnBookToLib(book1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
 
     }
 
@@ -75,5 +107,9 @@ public class Reader extends Thread {
         catch(InterruptedException ex){
             System.out.println(ex.getMessage());
         }
+    }
+
+    public int getRandom(int min, int max) {
+        return (int) ((Math.random() * (max - min)) + min);
     }
 }

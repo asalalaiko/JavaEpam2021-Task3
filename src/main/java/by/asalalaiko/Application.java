@@ -46,6 +46,7 @@ public class Application {
 
         semaphore = new Semaphore(readers.size());
         readers.forEach(Thread::start);
+
         LOG.info("Main thread finished");
     }
 
@@ -54,12 +55,12 @@ public class Application {
         readers.add(new Reader(1, library, readingRoom, exchanger));
         readers.add(new Reader(2, library, readingRoom, exchanger));
         readers.add(new Reader(3, library, readingRoom, exchanger));
-        readers.add(new Reader(4, library, readingRoom, exchanger));
-        readers.add(new Reader(5, library, readingRoom, exchanger));
-        readers.add(new Reader(6, library, readingRoom, exchanger));
-        readers.add(new Reader(7, library, readingRoom, exchanger));
-        readers.add(new Reader(8, library, readingRoom, exchanger));
-        readers.add(new Reader(9, library, readingRoom, exchanger));
+//        readers.add(new Reader(4, library, readingRoom, exchanger));
+//        readers.add(new Reader(5, library, readingRoom, exchanger));
+//        readers.add(new Reader(6, library, readingRoom, exchanger));
+//        readers.add(new Reader(7, library, readingRoom, exchanger));
+//        readers.add(new Reader(8, library, readingRoom, exchanger));
+//        readers.add(new Reader(9, library, readingRoom, exchanger));
 
         return readers;
     }
