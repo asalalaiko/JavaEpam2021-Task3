@@ -40,15 +40,9 @@ public class Reader extends Thread {
 
             Book bookRR = readingRoom.getBook();
             LOG.info("Rider {} take Book {} in Reading room", readerName, bookRR.getId());
-            try{
-                bookRR = exchanger.exchange(bookRR);
 
-                LOG.info("===============> Rider {} exchange to Book {} in Reading room", readerName, bookRR.getId());
-                
-            }
-            catch(InterruptedException ex){
-                System.out.println(ex.getMessage());
-            }
+            changeBook(bookRR);
+
             returnBookToRR(bookRR);
 
 
@@ -69,7 +63,17 @@ public class Reader extends Thread {
         sleep((long) (Math.random() * 100));
         LOG.info("Rider {} return Book {} to Reading room", readerName, book.getId());
         readingRoom.setBook(book);
+    }
 
+    private void  changeBook(Book book){
+        try{
+            book = exchanger.exchange(book);
 
+            LOG.info("===============> Rider {} exchange to Book {} in Reading room", readerName, book.getId());
+
+        }
+        catch(InterruptedException ex){
+            System.out.println(ex.getMessage());
+        }
     }
 }
