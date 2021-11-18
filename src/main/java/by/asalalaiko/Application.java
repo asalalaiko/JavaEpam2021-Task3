@@ -54,7 +54,7 @@ public class Application {
         List<Reader> readers = new ArrayList<>();
         readers.add(new Reader(1, library, readingRoom, exchanger));
         readers.add(new Reader(2, library, readingRoom, exchanger));
-        readers.add(new Reader(3, library, readingRoom, exchanger));
+//        readers.add(new Reader(3, library, readingRoom, exchanger));
 //        readers.add(new Reader(4, library, readingRoom, exchanger));
 //        readers.add(new Reader(5, library, readingRoom, exchanger));
 //        readers.add(new Reader(6, library, readingRoom, exchanger));
@@ -74,8 +74,8 @@ public class Application {
         books.add(new Book(4));
         books.add(new Book(5));
         books.add(new Book(6));
-//        books.add(new Book(7));
-//        books.add(new Book(8));
+        books.add(new Book(7));
+        books.add(new Book(8));
         return books;
     }
 

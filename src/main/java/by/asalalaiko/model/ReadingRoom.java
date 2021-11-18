@@ -17,7 +17,7 @@ public class ReadingRoom {
     public ReadingRoom(List<Book> bookList) {
 
         this.bookList = bookList;
-        semaphore = new Semaphore(bookList.size());
+        semaphore = new Semaphore(bookList.size()+3);
         bookList.forEach(book -> book.setSemaphore(semaphore));
     }
 
@@ -29,7 +29,7 @@ public class ReadingRoom {
         freeBook.busy();
 
         lock.unlock();
-        sleep((long) (Math.random() * 20));
+        sleep((long) (Math.random() * 150));
         return freeBook;
     }
 
@@ -38,7 +38,5 @@ public class ReadingRoom {
         book.release();
         lock.unlock();
         semaphore.release();
-
-
     }
 }
