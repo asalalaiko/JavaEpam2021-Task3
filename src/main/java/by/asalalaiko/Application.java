@@ -35,10 +35,10 @@ public class Application {
 
 
         List<Book> booksL = booksFromLibrary();
-        Library library = new Library(2, booksL);
+        Library library = new Library(5, booksL);
 
         List<Book> booksRR = booksFromReadingRoom();
-        ReadingRoom readingRoom = new ReadingRoom(1, booksRR);
+        ReadingRoom readingRoom = new ReadingRoom(booksRR);
 
         Exchanger<Book> exchanger = new Exchanger<>();
 

@@ -63,8 +63,11 @@ public class Reader extends Thread {
                 LOG.info("Library refuses Rider {} to give books", readerName);
                 i--;
             } else {
-                books.add(library.getBook());
-                LOG.info("Rider {} take Book {} in Library", readerName, books.get(books.size()-1).getId());
+                for (int n=0; n<i; n++) {
+                    books.add(library.getBook());
+                    LOG.info("Rider {} take Book {} in Library", readerName, books.get(books.size()-1).getId());
+                }
+
             }
         }
        while (books.size()<=0);

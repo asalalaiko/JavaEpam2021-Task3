@@ -9,14 +9,13 @@ import static java.lang.Thread.sleep;
 public class ReadingRoom {
 
 
-    private Integer limitBooks;
 
     private List<Book> bookList;
-    private Semaphore semaphore;
+    //private Semaphore semaphore;
     private ReentrantLock lock = new ReentrantLock();
 
-    public ReadingRoom(Integer limitBooks, List<Book> bookList) {
-        this.limitBooks = limitBooks;
+    public ReadingRoom(List<Book> bookList) {
+
         this.bookList = bookList;
 
     }
@@ -37,6 +36,7 @@ public class ReadingRoom {
         lock.lock();
         book.release();
         lock.unlock();
+
 
 
     }
