@@ -28,7 +28,7 @@ import java.util.concurrent.Semaphore;
 
 public class Application {
     private static final Logger LOG = LoggerFactory.getLogger(Application.class);
-    private static Semaphore semaphore;
+
 
     public static void main(String[] args){
 
@@ -44,7 +44,7 @@ public class Application {
 
         List<Reader> readers = getReaders(library, readingRoom, exchanger);
 
-        semaphore = new Semaphore(booksL.size()+booksRR.size());
+
         readers.forEach(Thread::start);
 
         LOG.info("Main thread finished");
@@ -73,7 +73,7 @@ public class Application {
         books.add(new Book(3));
         books.add(new Book(4));
         books.add(new Book(5));
-//        books.add(new Book(6));
+        books.add(new Book(6));
 //        books.add(new Book(7));
 //        books.add(new Book(8));
         return books;
@@ -85,6 +85,8 @@ public class Application {
         books.add(new Book(11));
         books.add(new Book(12));
         books.add(new Book(13));
+        books.add(new Book(14));
+        books.add(new Book(15));
         return books;
     }
 }

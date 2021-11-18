@@ -26,6 +26,7 @@ public class Book {
 
     public void release() {
         free = true;
+
     }
 
     public Integer getId(){

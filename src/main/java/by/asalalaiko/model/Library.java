@@ -36,6 +36,7 @@ public class Library {
         lock.lock();
         book.release();
         lock.unlock();
+        semaphore.release();
     }
 
     public Integer getLimitBooks(){

@@ -42,7 +42,7 @@ public class Reader extends Thread {
             Book bookRR = readingRoom.getBook();
             LOG.info("Rider {} take Book {} in Reading room", readerName, bookRR.getId());
 
-            changeBook(bookRR);
+            bookRR = changeBook(bookRR);
 
             returnBookToRR(bookRR);
 
@@ -100,7 +100,7 @@ public class Reader extends Thread {
         readingRoom.setBook(book);
     }
 
-    private void  changeBook(Book book){
+    private Book changeBook(Book book){
         try{
             book = exchanger.exchange(book);
 
@@ -110,6 +110,7 @@ public class Reader extends Thread {
         catch(InterruptedException ex){
             System.out.println(ex.getMessage());
         }
+        return book;
     }
 
     public int getRandom(int min, int max) {
