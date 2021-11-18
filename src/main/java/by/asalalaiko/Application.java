@@ -35,7 +35,7 @@ public class Application {
 
 
         List<Book> booksL = booksFromLibrary();
-        Library library = new Library(5, booksL);
+        Library library = new Library(2, booksL);
 
         List<Book> booksRR = booksFromReadingRoom();
         ReadingRoom readingRoom = new ReadingRoom(booksRR);
@@ -44,7 +44,7 @@ public class Application {
 
         List<Reader> readers = getReaders(library, readingRoom, exchanger);
 
-        semaphore = new Semaphore(readers.size());
+        semaphore = new Semaphore(booksL.size()+booksRR.size());
         readers.forEach(Thread::start);
 
         LOG.info("Main thread finished");
